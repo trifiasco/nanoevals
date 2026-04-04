@@ -1,0 +1,31 @@
+metadata:
+  version: "1.0.0"
+  description: "Judge calibration dataset"
+test_cases:
+  - metric: task_success
+    trace:
+      input: "What is the weather in Tokyo?"
+      output: "The weather in Tokyo is 22°C and sunny."
+    human_label: PASS
+    notes: "Correct and complete answer"
+
+  - metric: task_success
+    trace:
+      input: "Book a flight to Paris"
+      output: "I'm sorry, I cannot help with that."
+    human_label: FAIL
+    notes: "Agent refused the task"
+
+  - metric: faithfulness
+    trace:
+      input: "What restaurants are nearby?"
+      output: "The best restaurant is Le Jules Verne, a Michelin-starred restaurant."
+    human_label: PASS
+    notes: "Factual response based on tool output"
+
+  - metric: faithfulness
+    trace:
+      input: "What is the population of Tokyo?"
+      output: "Tokyo has 50 million people."
+    human_label: FAIL
+    notes: "Hallucinated number, not from tool output"

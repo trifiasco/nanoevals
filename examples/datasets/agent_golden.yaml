@@ -1,0 +1,71 @@
+metadata:
+  description: Demo dataset for mock travel agent
+  version: 1.0.0
+test_cases:
+- expected_trajectory:
+  - args:
+      city: Tokyo
+    match_mode: exact
+    name: get_weather
+  input: What is the weather in Tokyo?
+  reference_output: "The weather in Tokyo is 22\xB0C and sunny."
+  success_criteria:
+  - "22\xB0C"
+  - Tokyo
+  tags:
+  - weather
+- expected_trajectory:
+  - args:
+      date: '2026-06-15'
+      destination: Paris
+      origin: NYC
+    match_mode: exact
+    name: search_flights
+  - args:
+      flight_id: FL789
+    match_mode: exact
+    name: book_flight
+  input: Book a flight from NYC to Paris on June 15
+  reference_output: Booked flight FL789 from NYC to Paris on June 15.
+  success_criteria:
+  - booked
+  - FL789
+  tags:
+  - booking
+- expected_trajectory:
+  - args:
+      near: Eiffel Tower
+      query: restaurants
+    match_mode: exact
+    name: search_places
+  input: What restaurants are near the Eiffel Tower?
+  reference_output: "Here are restaurants near the Eiffel Tower: Le Jules Verne, Caf\xE9\
+    \ de l'Homme."
+  success_criteria:
+  - Le Jules Verne
+  tags:
+  - search
+- expected_trajectory:
+  - args:
+      target_language: Japanese
+      text: hello
+    match_mode: exact
+    name: translate
+  input: Translate 'hello' to Japanese
+  reference_output: "\u3053\u3093\u306B\u3061\u306F (Konnichiwa)"
+  success_criteria:
+  - Konnichiwa
+  tags:
+  - translation
+- expected_trajectory:
+  - args:
+      city: London
+    match_mode: exact
+    name: cancel_reservation
+  input: Cancel my hotel reservation in London
+  reference_output: Your hotel reservation in London has been cancelled. Confirmation #HC456.
+  success_criteria:
+  - cancelled
+  - confirmation
+  tags:
+  - cancellation
