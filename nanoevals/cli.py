@@ -50,7 +50,11 @@ def cmd_gate(args):
     thresholds = DEFAULT_THRESHOLDS
     if args.thresholds:
         thresholds = json.loads(Path(args.thresholds).read_text())
-    passed = check(report["summary"], thresholds)
+    passed, failures = check(report["summary"], thresholds)
+    if not passed:
+        print("Deployment BLOCKED:")
+        for m, (actual, required) in failures.items():
+            print(f"  {m}: {actual:.3f} < {required:.3f}")
     return 0 if passed else 1
 
 

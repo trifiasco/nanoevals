@@ -21,4 +21,7 @@ print(f"  Avg latency: {report.reliability['avg_latency_ms']:.0f}ms")
 print(f"  Total tokens: {report.reliability['total_tokens']}")
 print(f"  Total cost: ${report.reliability['total_cost']:.4f}")
 
-print(f"\nCI Gate: {'PASS' if check(report.summary) else 'FAIL'}")
+passed, failures = check(report.summary)
+print(f"\nCI Gate: {'PASS' if passed else 'FAIL'}")
+for m, (actual, required) in failures.items():
+    print(f"  {m}: {actual:.3f} < {required:.3f}")

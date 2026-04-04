@@ -5,15 +5,10 @@ DEFAULT_THRESHOLDS = {
 }
 
 
-def check(report: dict, thresholds: dict = DEFAULT_THRESHOLDS) -> bool:
+def check(report: dict, thresholds: dict = DEFAULT_THRESHOLDS) -> tuple[bool, dict]:
     failures = {
         k: (report[k], v)
         for k, v in thresholds.items()
         if k in report and report[k] < v
     }
-    if failures:
-        print("Deployment BLOCKED:")
-        for m, (actual, required) in failures.items():
-            print(f"  {m}: {actual:.3f} < {required:.3f}")
-        return False
-    return True
+    return (len(failures) == 0, failures)
