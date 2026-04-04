@@ -1,0 +1,16 @@
+metadata:
+  version: "1.0.0"
+  description: "Judge calibration fixture"
+test_cases:
+  - metric: task_success
+    trace:
+      input: "What is 2+2?"
+      output: "4"
+    human_label: PASS
+    notes: "Correct answer"
+  - metric: task_success
+    trace:
+      input: "What is 2+2?"
+      output: "I don't know"
+    human_label: FAIL
+    notes: "Wrong answer"

@@ -1,0 +1,28 @@
+metadata:
+  version: "1.0.0"
+  description: "Test fixture"
+test_cases:
+  - input: "What is the weather in Tokyo?"
+    expected_trajectory:
+      - name: get_weather
+        args:
+          city: Tokyo
+        match_mode: exact
+    success_criteria:
+      - "mentions temperature"
+    reference_output: "The weather in Tokyo is 22°C and sunny."
+    tags:
+      - weather
+  - input: "Book a flight to Paris"
+    expected_trajectory:
+      - name: search_flights
+        args:
+          destination: Paris
+      - name: book_flight
+        args:
+          flight_id: "FL123"
+    success_criteria:
+      - "confirms booking"
+    reference_output: "Flight FL123 to Paris booked."
+    tags:
+      - booking
