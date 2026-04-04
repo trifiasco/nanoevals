@@ -29,8 +29,8 @@ for i, arg in enumerate(sys.argv):
     if arg == "--data-dir" and i + 1 < len(sys.argv):
         DATA_DIR = sys.argv[i + 1]
 
-st.set_page_config(page_title="nanoEval", layout="wide")
-st.title("nanoEval")
+st.set_page_config(page_title="nanoEvals", layout="wide")
+st.title("nanoEvals")
 
 tab_reports, tab_agent_editor, tab_run = st.tabs(
     ["Previous Run Reports", "Dataset Editor", "Run Eval"]
