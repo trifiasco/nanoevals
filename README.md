@@ -2,6 +2,12 @@
 
 A minimal eval library for AI agents. Illustrates the end to end flow of running evals, managing datasets, metrics. Comes with a CLI and a simple streamlit dashboard.
 
+## Screenshots
+
+![Run Eval](screenshots/Screenshot_Run_Eval.png)
+![Run Reports](screenshots/Screenshot_Reports.png)
+![Dataset Editor](screenshots/Screenshot_Dataset_Editor.png)
+
 ## Install
 
 ```bash
