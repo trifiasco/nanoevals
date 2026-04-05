@@ -36,6 +36,6 @@ It expects the agent and judge as a function. So you can easily hook up your age
 | `nanoevals/metrics.py` | 65 | tool_correctness, trajectory_match, step_efficiency |
 | `nanoevals/runner.py` | 103 | Eval runner with reliability stats |
 | `nanoevals/gate.py` | 14 | CI deployment gate |
-| `nanoevals/cli.py` | 90 | CLI entry points |
+| `nanoevals/cli.py` | 93 | CLI entry points |
 | `app.py` | 198 | Streamlit dashboard |
-| **Total** | **557** | |
+| **Total** | **560** | |
