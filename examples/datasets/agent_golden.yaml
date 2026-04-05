@@ -8,12 +8,10 @@ test_cases:
     match_mode: exact
     name: get_weather
   input: What is the weather in Tokyo?
-  reference_output: "The weather in Tokyo is 22\xB0C and sunny."
+  reference_output: The weather in Tokyo is 22°C and sunny.
   success_criteria:
-  - "22\xB0C"
+  - 22°C
   - Tokyo
-  tags:
-  - weather
 - expected_trajectory:
   - args:
       date: '2026-06-15'
@@ -30,8 +28,6 @@ test_cases:
   success_criteria:
   - booked
   - FL789
-  tags:
-  - booking
 - expected_trajectory:
   - args:
       near: Eiffel Tower
@@ -39,12 +35,10 @@ test_cases:
     match_mode: exact
     name: search_places
   input: What restaurants are near the Eiffel Tower?
-  reference_output: "Here are restaurants near the Eiffel Tower: Le Jules Verne, Caf\xE9\
-    \ de l'Homme."
+  reference_output: 'Here are restaurants near the Eiffel Tower: Le Jules Verne, Café
+    de l''Homme.'
   success_criteria:
   - Le Jules Verne
-  tags:
-  - search
 - expected_trajectory:
   - args:
       target_language: Japanese
@@ -52,20 +46,16 @@ test_cases:
     match_mode: exact
     name: translate
   input: Translate 'hello' to Japanese
-  reference_output: "\u3053\u3093\u306B\u3061\u306F (Konnichiwa)"
+  reference_output: こんにちは (Konnichiwa)
   success_criteria:
   - Konnichiwa
-  tags:
-  - translation
 - expected_trajectory:
   - args:
       city: London
     match_mode: exact
     name: cancel_reservation
   input: Cancel my hotel reservation in London
-  reference_output: Your hotel reservation in London has been cancelled. Confirmation #HC456.
+  reference_output: Your hotel reservation in London has been cancelled. Confirmation
   success_criteria:
   - cancelled
   - confirmation
-  tags:
-  - cancellation

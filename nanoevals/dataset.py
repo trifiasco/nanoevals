@@ -18,7 +18,6 @@ class AgentTestCase(BaseModel):
     expected_trajectory: list[ExpectedToolCall] = Field(default_factory=list)
     success_criteria: list[str] = Field(default_factory=list)
     reference_output: str | None = None
-    tags: list[str] = Field(default_factory=list)
 
 
 class DatasetMeta(BaseModel):
