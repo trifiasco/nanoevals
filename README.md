@@ -99,9 +99,11 @@ See `examples/` for reference.
 
 ## Deliberately Missing
 
-This library optimizes for clarity over completeness. The following are intentionally left out:
+This library optimizes for clarity over completeness:
 
-- **Built-in LLM judge** — The library is LLM-agnostic. You bring your own judge function that calls whatever model you want. See `examples/judge.py` for the contract.
-- **Run comparison** — The dashboard shows individual runs but doesn't diff across runs. For regression tracking, compare `report.json` files directly.
-- **Argument-aware trajectory matching** — `trajectory_match` compares tool names in order but ignores arguments. `tool_correctness` checks arguments but ignores order. A combined metric is straightforward to add as a custom metric.
-- **PyPI publishing** — Install from source for now.
+- **Metrics are intentionally shallow**: No BLEU, ROUGE, or BERTScore. Built-in metrics show the pattern; bring your own for production use.
+- **No built-in LLM judge**: You bring your own `judge_fn`. The library stays dependency-free and LLM-agnostic.
+- **No retry/backoff**: Flaky agent calls are caught but not retried. Handle retries in your `agent_fn`.
+- **No trace/span integration**: The `Trace` model is the integration point. Emit OpenTelemetry spans from your agent; nanoevals scores the results.
+- **No run comparison**: View individual runs in the dashboard. Diff `report.json` files for regression tracking.
+- **No dataset versioning or synthetic generation**: YAML files + the editor cover basic management. Use external tooling for more.
