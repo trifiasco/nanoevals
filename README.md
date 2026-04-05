@@ -21,21 +21,26 @@ nanoevals app
 Or, the CLI
 
 ```bash
-nanoevals run --dataset examples/datasets/agent_golden.yaml --agent examples.mock_agent:mock_agent
+nanoevals run --dataset examples/datasets/agent_golden.yaml --agent examples.mock_agent:mock_agent --judge examples.judge:simple_judge --metrics examples.custom_metrics:response_verbosity
 nanoevals gate --run-id <run_id>
 ```
 
-It expects the agent and judge as a function. So you can easily hook up your agent and judge and it should run against them. See `examples/run_eval.py` for reference.
+It expects the agent and judge as callable functions (`module:function` format). Hook up your own by implementing:
+
+- `agent_fn(input: str) -> Trace`
+- `judge_fn(trace: Trace, test_case: AgentTestCase) -> list[EvalResult]` (optional)
+
+See `examples/` for reference implementations.
 
 ## Structure
 
 | Module | Lines | Purpose |
 |--------|------:|---------|
 | `nanoevals/types.py` | 28 | Trace, ToolCall, EvalResult, UsageStats |
-| `nanoevals/dataset.py` | 59 | Dataset schemas + YAML load/save |
+| `nanoevals/dataset.py` | 58 | Dataset schemas + YAML load/save |
 | `nanoevals/metrics.py` | 65 | tool_correctness, trajectory_match, step_efficiency |
-| `nanoevals/runner.py` | 103 | Eval runner with reliability stats |
+| `nanoevals/runner.py` | 109 | Eval runner with reliability stats |
 | `nanoevals/gate.py` | 14 | CI deployment gate |
 | `nanoevals/cli.py` | 93 | CLI entry points |
-| `app.py` | 198 | Streamlit dashboard |
-| **Total** | **560** | |
+| `nanoevals/app.py` | 189 | Streamlit dashboard |
+| **Total** | **556** | |
