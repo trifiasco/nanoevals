@@ -30,11 +30,15 @@ nanoevals app
 Or run evals from the CLI:
 
 ```bash
+# --dataset  path to YAML test cases
+# --agent    your agent as module:function
+# --judge    optional LLM judge
+# --metrics  optional extra metrics
 nanoevals run \
-  --dataset examples/datasets/agent_golden.yaml \  # path to YAML test cases
-  --agent examples.mock_agent:mock_agent \          # your agent as module:function
-  --judge examples.judge:simple_judge \             # optional LLM judge
-  --metrics examples.custom_metrics:response_verbosity  # optional extra metrics
+  --dataset examples/datasets/agent_golden.yaml \
+  --agent examples.mock_agent:mock_agent \
+  --judge examples.judge:simple_judge \
+  --metrics examples.custom_metrics:response_verbosity
 ```
 
 Check results against CI thresholds:
@@ -47,8 +51,8 @@ Calibrate your judge against human-labeled data:
 
 ```bash
 nanoevals calibrate \
-  --dataset examples/datasets/judge_golden.yaml \  # judge test cases with human labels
-  --judge examples.judge:simple_judge              # your judge function
+  --dataset examples/datasets/judge_golden.yaml \
+  --judge examples.judge:simple_judge
 ```
 
 ## Bring Your Own Agent

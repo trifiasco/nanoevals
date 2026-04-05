@@ -172,6 +172,9 @@ with tab_run:
     metrics_input = st.text_input("Extra metrics (comma-separated module:function)", "examples.custom_metrics:response_verbosity")
     repeat = st.number_input("Repeat", min_value=1, max_value=100, value=1)
 
+    if st.session_state.get("last_run_id"):
+        st.success(f"Run {st.session_state.pop('last_run_id')} complete!")
+
     if st.button("Run"):
         try:
             ds = load_agent_dataset(dataset_path)
@@ -185,5 +188,5 @@ with tab_run:
         with st.spinner("Running eval..."):
             report = run_eval(ds, agent_fn=agent_fn, judge_fn=judge_fn, extra_metrics=extra_metrics, repeat=repeat, data_dir=DATA_DIR)
 
-        st.success(f"Run {report.run_id} complete! Reloading...")
+        st.session_state["last_run_id"] = report.run_id
         st.rerun()
