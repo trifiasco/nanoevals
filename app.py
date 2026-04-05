@@ -178,6 +178,7 @@ with tab_run:
     dataset_path = st.text_input("Dataset path", "examples/datasets/agent_golden.yaml")
     agent_module = st.text_input("Agent module (module:function)", "examples.mock_agent:mock_agent")
     judge_module = st.text_input("Judge module (module:function, optional)", "examples.judge:simple_judge")
+    metrics_input = st.text_input("Extra metrics (comma-separated module:function)", "examples.custom_metrics:response_verbosity")
     repeat = st.number_input("Repeat", min_value=1, max_value=100, value=1)
 
     if st.button("Run"):
@@ -185,14 +186,13 @@ with tab_run:
             ds = load_agent_dataset(dataset_path)
             agent_fn = _import_callable(agent_module)
             judge_fn = _import_callable(judge_module) if judge_module else None
+            extra_metrics = [_import_callable(m.strip()) for m in metrics_input.split(",") if m.strip()] or None
         except Exception as e:
             st.error(f"Failed to load: {e}")
             st.stop()
 
         with st.spinner("Running eval..."):
-            report = run_eval(ds, agent_fn=agent_fn, judge_fn=judge_fn, repeat=repeat, data_dir=DATA_DIR)
+            report = run_eval(ds, agent_fn=agent_fn, judge_fn=judge_fn, extra_metrics=extra_metrics, repeat=repeat, data_dir=DATA_DIR)
 
-        st.success(f"Run {report.run_id} complete!")
-        for k, v in report.summary.items():
-            st.write(f"  {k}: {v:.3f}")
-        st.write("Switch to 'Previous Run Reports' tab to see full details.")
+        st.success(f"Run {report.run_id} complete! Reloading...")
+        st.rerun()

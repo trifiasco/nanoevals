@@ -33,13 +33,13 @@ def run_eval(
     dataset: AgentGoldenDataset,
     agent_fn: Callable[[str], Trace],
     judge_fn: Callable[[Trace, AgentTestCase], list[EvalResult]] | None = None,
-    metrics: list | None = None,
+    extra_metrics: list | None = None,
     run_id: str | None = None,
     repeat: int = 1,
     data_dir: str = "data/runs",
 ) -> RunReport:
     run_id = run_id or f"{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
-    metrics = metrics if metrics is not None else DEFAULT_METRICS
+    metrics = DEFAULT_METRICS + (extra_metrics or [])
 
     all_results: list[dict] = []
     all_traces: list[Trace] = []

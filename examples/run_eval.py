@@ -5,10 +5,16 @@ from nanoevals.runner import run_eval
 from nanoevals.gate import check
 from mock_agent import mock_agent
 from judge import simple_judge
+from custom_metrics import response_verbosity
 
 dataset = load_agent_dataset(str(Path(__file__).parent / "datasets" / "agent_golden.yaml"))
 
-report = run_eval(dataset, agent_fn=mock_agent, judge_fn=simple_judge)
+report = run_eval(
+    dataset,
+    agent_fn=mock_agent,
+    judge_fn=simple_judge,
+    extra_metrics=[response_verbosity],
+)
 
 print(f"Run: {report.run_id}")
 print(f"Timestamp: {report.timestamp}")

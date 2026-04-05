@@ -23,10 +23,12 @@ def cmd_run(args):
     dataset = load_agent_dataset(args.dataset)
     agent_fn = _import_callable(args.agent)
     judge_fn = _import_callable(args.judge) if args.judge else None
+    extra_metrics = [_import_callable(m.strip()) for m in args.metrics.split(",")] if args.metrics else None
     report = run_eval(
         dataset,
         agent_fn=agent_fn,
         judge_fn=judge_fn,
+        extra_metrics=extra_metrics,
         run_id=args.run_id,
         repeat=args.repeat,
         data_dir=args.data_dir,
@@ -66,6 +68,7 @@ def main():
     run_p.add_argument("--dataset", required=True)
     run_p.add_argument("--agent", required=True, help="module:function")
     run_p.add_argument("--judge", help="module:function")
+    run_p.add_argument("--metrics", help="comma-separated module:function paths")
     run_p.add_argument("--run-id")
     run_p.add_argument("--repeat", type=int, default=1)
     run_p.add_argument("--data-dir", default=DEFAULT_DATA_DIR)
