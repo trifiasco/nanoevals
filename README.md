@@ -1,6 +1,6 @@
 # nanoevals
 
-A minimal eval library for AI agents with dataset management, metrics, CI gating and a dashboard in ~600 lines of code.
+A minimal eval library for AI agents with dataset management, metrics, CI gating and a dashboard in ~700 lines of code.
 
 <img src="screenshots/Screenshot_Run_Eval.png" width="30%"> <img src="screenshots/Screenshot_Reports.png" width="30%"> <img src="screenshots/Screenshot_Dataset_Editor.png" width="30%">
 
@@ -8,7 +8,7 @@ A minimal eval library for AI agents with dataset management, metrics, CI gating
 
 Evals are the most important part of any LLM-powered application, yet most eval libraries are thousands of lines of abstraction that obscure what's actually happening.
 
-nanoevals is the opposite: the core logic is under 300 lines of Python. The entire library including the CLI and dashboard is ~600 lines.
+nanoevals is the opposite: the core logic is under 300 lines of Python. The entire library including the CLI and dashboard is ~700 lines.
 
 The goal is clarity. By keeping the implementation minimal, you can see exactly how dataset loading, metric scoring, result aggregation, and CI gating work end to end. Fork it, extend it, or use it as a reference for understanding the eval process.
 
@@ -74,6 +74,14 @@ report = run_eval(
 )
 ```
 
+Async agents are supported transparently — just pass an `async def` agent and `run_eval` handles it automatically, running test cases concurrently with `asyncio.gather`:
+
+```python
+async def my_agent(input: str) -> Trace:
+    result = await call_llm(input)
+    return Trace(output=result, ...)
+```
+
 See `examples/` for reference.
 
 ## Structure
@@ -83,8 +91,17 @@ See `examples/` for reference.
 | `nanoevals/types.py` | 28 | Trace, ToolCall, EvalResult, UsageStats |
 | `nanoevals/dataset.py` | 58 | Dataset schemas + YAML load/save |
 | `nanoevals/metrics.py` | 83 | tool_correctness, trajectory_match, step_efficiency, reference_match |
-| `nanoevals/runner.py` | 109 | Eval runner with reliability stats |
+| `nanoevals/runner.py` | 170 | Eval runner with async support and reliability stats |
 | `nanoevals/gate.py` | 50 | CI deployment gate + judge calibration |
 | `nanoevals/cli.py` | 111 | CLI entry points |
 | `nanoevals/app.py` | 189 | Streamlit dashboard |
-| **Total** | **628** | |
+| **Total** | **689** | |
+
+## Deliberately Missing
+
+This library optimizes for clarity over completeness. The following are intentionally left out:
+
+- **Built-in LLM judge** — The library is LLM-agnostic. You bring your own judge function that calls whatever model you want. See `examples/judge.py` for the contract.
+- **Run comparison** — The dashboard shows individual runs but doesn't diff across runs. For regression tracking, compare `report.json` files directly.
+- **Argument-aware trajectory matching** — `trajectory_match` compares tool names in order but ignores arguments. `tool_correctness` checks arguments but ignores order. A combined metric is straightforward to add as a custom metric.
+- **PyPI publishing** — Install from source for now.
