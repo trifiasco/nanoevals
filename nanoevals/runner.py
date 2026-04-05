@@ -47,7 +47,13 @@ def run_eval(
 
     for rep in range(repeat):
         for i, test_case in enumerate(dataset.test_cases):
-            trace = agent_fn(test_case.input)
+            try:
+                trace = agent_fn(test_case.input)
+            except Exception as exc:
+                trace = Trace(output=f"ERROR: {exc}")
+
+            if not trace.input:
+                trace = trace.model_copy(update={"input": test_case.input})
             all_traces.append(trace)
             evals = [m(trace, test_case) for m in metrics]
             if judge_fn:
