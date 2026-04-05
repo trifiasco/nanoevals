@@ -60,8 +60,22 @@ def cmd_gate(args):
     return 0 if passed else 1
 
 
+def cmd_calibrate(args):
+    from nanoevals.dataset import load_judge_dataset
+    from nanoevals.gate import calibrate_judge
+
+    dataset = load_judge_dataset(args.dataset)
+    judge_fn = _import_callable(args.judge)
+    results = calibrate_judge(dataset, judge_fn)
+    print(f"Accuracy: {results['accuracy']:.3f}")
+    print(f"TPR:      {results['tpr']:.3f}")
+    print(f"TNR:      {results['tnr']:.3f}")
+    print(f"TP: {results['tp']}  FP: {results['fp']}  TN: {results['tn']}  FN: {results['fn']}")
+    return 0
+
+
 def main():
-    parser = argparse.ArgumentParser(prog="nanoeval")
+    parser = argparse.ArgumentParser(prog="nanoevals")
     sub = parser.add_subparsers(dest="command")
 
     run_p = sub.add_parser("run")
@@ -81,8 +95,12 @@ def main():
     gate_p.add_argument("--thresholds", help="path to JSON thresholds file")
     gate_p.add_argument("--data-dir", default=DEFAULT_DATA_DIR)
 
+    cal_p = sub.add_parser("calibrate")
+    cal_p.add_argument("--dataset", required=True, help="path to judge golden dataset YAML")
+    cal_p.add_argument("--judge", required=True, help="module:function")
+
     args = parser.parse_args()
-    commands = {"run": cmd_run, "app": cmd_app, "gate": cmd_gate}
+    commands = {"run": cmd_run, "app": cmd_app, "gate": cmd_gate, "calibrate": cmd_calibrate}
     if args.command in commands:
         return commands[args.command](args)
     parser.print_help()
