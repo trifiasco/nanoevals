@@ -15,7 +15,7 @@ class UsageStats(BaseModel):
 
 
 class Trace(BaseModel):
-    input: str
+    input: str = ""
     output: str
     tool_calls: list[ToolCall] = Field(default_factory=list)
     usage: UsageStats = Field(default_factory=UsageStats)
