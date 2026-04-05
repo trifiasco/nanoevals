@@ -1,5 +1,4 @@
 import json
-import importlib
 import sys
 from pathlib import Path
 
@@ -15,16 +14,10 @@ from nanoevals.dataset import (
 )
 from nanoevals.gate import check, DEFAULT_THRESHOLDS
 from nanoevals.runner import run_eval
-
-def _import_callable(module_path: str):
-    mod_name, fn_name = module_path.rsplit(":", 1)
-    return getattr(importlib.import_module(mod_name), fn_name)
+from nanoevals.cli import _import_callable
 
 
-PROJECT_ROOT = Path(__file__).parent
-DEFAULT_DATA_DIR = str(PROJECT_ROOT / "data" / "runs")
-
-DATA_DIR = DEFAULT_DATA_DIR
+DATA_DIR = "data/runs"
 for i, arg in enumerate(sys.argv):
     if arg == "--data-dir" and i + 1 < len(sys.argv):
         DATA_DIR = sys.argv[i + 1]
@@ -141,7 +134,6 @@ with tab_agent_editor:
                 f"Success Criteria (one per line)##agent{i}",
                 "\n".join(tc.success_criteria),
             )
-            new_tags = st.text_input(f"Tags (comma-separated)##agent{i}", ", ".join(tc.tags))
 
             new_trajectory = tc.expected_trajectory
             if new_trajectory_yaml.strip():
@@ -154,7 +146,6 @@ with tab_agent_editor:
                 "reference_output": new_ref or None,
                 "expected_trajectory": new_trajectory,
                 "success_criteria": [s.strip() for s in new_criteria.split("\n") if s.strip()],
-                "tags": [t.strip() for t in new_tags.split(",") if t.strip()],
             })
 
             if st.button(f"Delete##agent{i}"):
