@@ -50,6 +50,24 @@ def trajectory_match(trace: Trace, test_case: AgentTestCase) -> EvalResult:
     )
 
 
+def reference_match(trace: Trace, test_case: AgentTestCase) -> EvalResult:
+    if not test_case.reference_output:
+        return EvalResult(metric="reference_match", score=1.0, passed=True)
+    actual = trace.output.strip().lower()
+    expected = test_case.reference_output.strip().lower()
+    if actual == expected:
+        score = 1.0
+    else:
+        common = sum(a == b for a, b in zip(actual, expected))
+        score = (2 * common) / (len(actual) + len(expected)) if (len(actual) + len(expected)) > 0 else 0.0
+    return EvalResult(
+        metric="reference_match",
+        score=score,
+        passed=score >= 0.8,
+        comments=f"{'exact' if score == 1.0 else 'fuzzy'} match",
+    )
+
+
 def step_efficiency(trace: Trace, test_case: AgentTestCase) -> EvalResult:
     expected = len(test_case.expected_trajectory)
     if not expected:
