@@ -10,9 +10,9 @@ from pydantic import BaseModel, Field
 
 from nanoevals.types import Trace, EvalResult
 from nanoevals.dataset import AgentTestCase, AgentGoldenDataset
-from nanoevals.metrics import tool_correctness, trajectory_match, step_efficiency, reference_match
+from nanoevals.metrics import tool_correctness, trajectory_match, reference_match
 
-DEFAULT_METRICS = [tool_correctness, trajectory_match, step_efficiency, reference_match]
+DEFAULT_METRICS = [tool_correctness, trajectory_match, reference_match]
 
 
 class RunReport(BaseModel):

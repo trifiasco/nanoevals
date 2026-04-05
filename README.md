@@ -90,12 +90,12 @@ See `examples/` for reference.
 |--------|------:|---------|
 | `nanoevals/types.py` | 28 | Trace, ToolCall, EvalResult, UsageStats |
 | `nanoevals/dataset.py` | 58 | Dataset schemas + YAML load/save |
-| `nanoevals/metrics.py` | 83 | tool_correctness, trajectory_match, step_efficiency, reference_match |
+| `nanoevals/metrics.py` | 70 | tool_correctness, trajectory_match, reference_match |
 | `nanoevals/runner.py` | 170 | Eval runner with async support and reliability stats |
-| `nanoevals/gate.py` | 50 | CI deployment gate + judge calibration |
+| `nanoevals/gate.py` | 49 | CI deployment gate + judge calibration |
 | `nanoevals/cli.py` | 111 | CLI entry points |
 | `nanoevals/app.py` | 189 | Streamlit dashboard |
-| **Total** | **689** | |
+| **Total** | **675** | |
 
 ## Deliberately Missing
 

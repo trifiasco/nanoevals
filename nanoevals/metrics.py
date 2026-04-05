@@ -68,16 +68,3 @@ def reference_match(trace: Trace, test_case: AgentTestCase) -> EvalResult:
     )
 
 
-def step_efficiency(trace: Trace, test_case: AgentTestCase) -> EvalResult:
-    expected = len(test_case.expected_trajectory)
-    if not expected:
-        return EvalResult(metric="step_efficiency", score=1.0, passed=True)
-
-    actual = len(trace.tool_calls)
-    score = min(actual, expected) / max(actual, expected)
-    return EvalResult(
-        metric="step_efficiency",
-        score=score,
-        passed=score >= 0.7,
-        comments=f"{actual} actual / {expected} expected",
-    )

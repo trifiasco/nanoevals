@@ -7,7 +7,6 @@ from nanoevals.dataset import JudgeGoldenDataset, AgentTestCase
 DEFAULT_THRESHOLDS = {
     "tool_correctness": 0.90,
     "trajectory_match": 0.75,
-    "step_efficiency": 0.70,
 }
 
 

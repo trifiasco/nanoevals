@@ -1,7 +1,7 @@
 import pytest
 from nanoevals.types import Trace, ToolCall
 from nanoevals.dataset import AgentTestCase, ExpectedToolCall
-from nanoevals.metrics import tool_correctness, trajectory_match, step_efficiency
+from nanoevals.metrics import tool_correctness, trajectory_match
 
 
 def _make_trace(*tool_names: str) -> Trace:
@@ -70,17 +70,3 @@ def test_trajectory_match_partial():
     case = _make_case("a", "b", "c")
     result = trajectory_match(trace, case)
     assert result.score == 1.0
-
-
-def test_step_efficiency_too_many_steps():
-    trace = _make_trace("a", "b", "c", "d")
-    case = _make_case("a", "b")
-    result = step_efficiency(trace, case)
-    assert result.score == 0.5
-
-
-def test_step_efficiency_too_few_steps():
-    trace = _make_trace("a")
-    case = _make_case("a", "b")
-    result = step_efficiency(trace, case)
-    assert result.score == 0.5
