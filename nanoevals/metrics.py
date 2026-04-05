@@ -51,11 +51,11 @@ def trajectory_match(trace: Trace, test_case: AgentTestCase) -> EvalResult:
 
 
 def step_efficiency(trace: Trace, test_case: AgentTestCase) -> EvalResult:
-    actual = len(trace.tool_calls)
     expected = len(test_case.expected_trajectory)
-    if actual == 0 and expected == 0:
+    if not expected:
         return EvalResult(metric="step_efficiency", score=1.0, passed=True)
 
+    actual = len(trace.tool_calls)
     score = min(actual, expected) / max(actual, expected)
     return EvalResult(
         metric="step_efficiency",
