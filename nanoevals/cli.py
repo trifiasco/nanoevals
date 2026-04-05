@@ -40,7 +40,7 @@ def cmd_run(args):
 
 
 def cmd_app(args):
-    app_path = Path(__file__).parent.parent / "app.py"
+    app_path = Path(__file__).parent / "app.py"
     cmd = ["streamlit", "run", str(app_path), "--", "--data-dir", args.data_dir]
     subprocess.run(cmd)
     return 0
